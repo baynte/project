@@ -8,7 +8,9 @@
       light
     >
 
+      <v-avatar>
       <v-img :src="auth.avatar" max-height="60" max-width="60"/>
+      </v-avatar>
       <v-toolbar-title id="name" class="text-capitalize mx-2" style="font-size: 2rem; font-family: 'Indie Flower', cursive;">
           {{ auth.name }}
       </v-toolbar-title>

@@ -87,6 +87,8 @@ class CrudController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $toBeDestroyed = Crud::find($id);
+
+        return $toBeDestroyed;
     }
 }
