@@ -3514,9 +3514,56 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //import Axios from 'axios'
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['csrf', 'authId'],
+  props: ['csrf', 'auth'],
   mounted: function mounted() {
     var _this = this;
 
@@ -3526,21 +3573,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
+              _this.progressRead = true;
+              _context.prev = 1;
+              _context.next = 4;
               return axios.get('/crud');
 
-            case 2:
+            case 4:
               res = _context.sent;
               _this.crud_json.request = 'GET /crud:';
               _this.crud_json.response = res.data;
               _this.crud_data = res.data;
+              _this.progressRead = false;
+              _context.next = 16;
+              break;
 
-            case 6:
+            case 11:
+              _context.prev = 11;
+              _context.t0 = _context["catch"](1);
+              _this.error = true;
+              _this.errorTxt = _context.t0;
+              throw _context.t0;
+
+            case 16:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee);
+      }, _callee, null, [[1, 11]]);
     }))();
   },
   data: function data() {
@@ -3554,12 +3613,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         request: '',
         response: null
       },
+      isChange: false,
       item: '',
       filter: '',
       error: false,
       errorTxt: '',
+      show: false,
+      showObj: {
+        id: null,
+        author_id: null,
+        title: '',
+        description: '',
+        author: ''
+      },
       createError: false,
       progressCreate: false,
+      progressRead: false,
+      progressDelete: false,
       myworkFilter: true,
       overlay: false
     };
@@ -3570,7 +3640,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (this.myworkFilter == true) {
         return this.crud_data.filter(function (v) {
-          return v.author_id == _this2.authId;
+          return v.author_id == _this2.auth.id;
         });
       }
 
@@ -3588,12 +3658,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _this3.progressCreate = true;
-                _context2.prev = 1;
+                _this3.progressRead = true;
+                _context2.prev = 2;
                 temp = _this3.create;
-                _context2.next = 5;
+                _context2.next = 6;
                 return axios.post('/crud', temp);
 
-              case 5:
+              case 6:
                 res = _context2.sent;
                 _this3.crud_json.request = 'POST /crud:';
                 _this3.crud_json.response = res.data;
@@ -3606,25 +3677,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this3.crud_data = [{
                   title: title,
                   description: description,
-                  author_id: _this3.authId,
-                  id: res.data.id
+                  author_id: _this3.auth.id,
+                  id: res.data.id,
+                  author: _this3.auth
                 }].concat(_toConsumableArray(_this3.crud_data));
+                _this3.progressRead = false;
                 console.table(_this3.crud_data);
-                _context2.next = 19;
+                _context2.next = 21;
                 break;
 
-              case 15:
-                _context2.prev = 15;
-                _context2.t0 = _context2["catch"](1);
+              case 17:
+                _context2.prev = 17;
+                _context2.t0 = _context2["catch"](2);
                 _this3.createError = true;
                 throw _context2.t0;
 
-              case 19:
+              case 21:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[1, 15]]);
+        }, _callee2, null, [[2, 17]]);
       }))();
     },
     delCrud: function delCrud(id) {
@@ -3636,34 +3709,64 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.prev = 0;
-                _context3.next = 3;
+                _this4.progressDelete = true;
+                _context3.prev = 1;
+                _context3.next = 4;
                 return axios["delete"]("/crud/".concat(id));
 
-              case 3:
+              case 4:
                 res = _context3.sent;
                 _this4.crud_json.request = "DELETE /crud/".concat(id, ":");
                 _this4.crud_json.response = res.data;
                 _this4.crud_data = _this4.crud_data.filter(function (v) {
                   return v.id != id;
                 });
+                _this4.show = false;
+                _this4.progressDelete = false;
                 console.trace("id: ".concat(id, " is now at Trash"));
-                _context3.next = 15;
+                _context3.next = 18;
                 break;
 
-              case 10:
-                _context3.prev = 10;
-                _context3.t0 = _context3["catch"](0);
+              case 13:
+                _context3.prev = 13;
+                _context3.t0 = _context3["catch"](1);
                 _this4.error = true;
                 _this4.errorTxt = _context3.t0;
                 throw _context3.t0;
 
-              case 15:
+              case 18:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[0, 10]]);
+        }, _callee3, null, [[1, 13]]);
+      }))();
+    },
+    showCard: function showCard(_ref) {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var id, title, description, author_id, author;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                id = _ref.id, title = _ref.title, description = _ref.description, author_id = _ref.author_id, author = _ref.author;
+                _this5.show = true;
+                _this5.showObj = {
+                  id: id,
+                  title: title,
+                  description: description,
+                  author_id: author_id,
+                  author: author.name
+                };
+
+              case 3:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
       }))();
     }
   }
@@ -42431,11 +42534,7 @@ var render = function() {
       _c(
         "v-sheet",
         { staticClass: "mt-10", attrs: { height: "10000" } },
-        [
-          _c("crud-section", {
-            attrs: { csrf: _vm.csrf, "auth-id": _vm.auth.id }
-          })
-        ],
+        [_c("crud-section", { attrs: { csrf: _vm.csrf, auth: _vm.auth } })],
         1
       ),
       _vm._v(" "),
@@ -42823,94 +42922,110 @@ var render = function() {
                         staticStyle: { height: "500px", position: "relative" }
                       },
                       [
-                        _c(
-                          "v-list",
-                          { staticClass: "transparent" },
-                          [
-                            _c(
-                              "v-list-item-group",
+                        _vm.progressRead
+                          ? _c("v-progress-linear", {
+                              attrs: {
+                                indeterminate: "",
+                                color: "blue darken-2"
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        !_vm.crud_display.length && !_vm.progressRead
+                          ? _c("v-alert", { attrs: { type: "info" } }, [
+                              _vm._v("No Item")
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.crud_display.length
+                          ? _c(
+                              "v-list",
                               {
-                                attrs: { color: "primary" },
-                                model: {
-                                  value: _vm.item,
-                                  callback: function($$v) {
-                                    _vm.item = $$v
-                                  },
-                                  expression: "item"
-                                }
+                                staticClass: "transparent",
+                                attrs: { "three-line": "" }
                               },
-                              _vm._l(_vm.crud_display, function(item, i) {
-                                return _c(
-                                  "v-list-item",
+                              [
+                                _c(
+                                  "v-list-item-group",
                                   {
-                                    key: i,
-                                    class:
-                                      item.author_id === _vm.authId
-                                        ? "green lighten-5"
-                                        : "yellow lighten-4",
-                                    on: {
-                                      click: function($event) {
-                                        _vm.overlay = !_vm.overlay
-                                      }
+                                    attrs: { color: "primary" },
+                                    model: {
+                                      value: _vm.item,
+                                      callback: function($$v) {
+                                        _vm.item = $$v
+                                      },
+                                      expression: "item"
                                     }
                                   },
-                                  [
-                                    _c(
-                                      "v-list-item-content",
-                                      [
-                                        _c("v-list-item-title", {
-                                          domProps: {
-                                            textContent: _vm._s(item.title)
+                                  _vm._l(_vm.crud_display, function(item, i) {
+                                    return _c(
+                                      "v-list-item",
+                                      {
+                                        key: i,
+                                        class:
+                                          item.author_id === _vm.auth.id
+                                            ? "green lighten-5"
+                                            : "yellow lighten-4",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.showCard(item)
                                           }
-                                        }),
-                                        _vm._v(" "),
-                                        _c("v-list-item-subtitle", {
-                                          domProps: {
-                                            textContent: _vm._s(
-                                              item.description
-                                            )
-                                          }
-                                        })
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-list-item-action",
+                                        }
+                                      },
                                       [
-                                        item.author_id === _vm.authId
-                                          ? _c(
-                                              "v-btn",
-                                              {
-                                                attrs: { icon: "" },
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.delCrud(item.id)
-                                                  }
-                                                }
-                                              },
-                                              [
-                                                _c(
-                                                  "v-icon",
-                                                  { attrs: { color: "red" } },
-                                                  [_vm._v("mdi-delete")]
+                                        _c(
+                                          "v-list-item-content",
+                                          [
+                                            _c("v-list-item-title", {
+                                              domProps: {
+                                                textContent: _vm._s(item.title)
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c("v-list-item-subtitle", {
+                                              domProps: {
+                                                textContent: _vm._s(
+                                                  item.description
                                                 )
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c("v-list-item-subtitle", [
+                                              _vm._v(
+                                                "by: " +
+                                                  _vm._s(item.author.name)
+                                              )
+                                            ])
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-list-item-action",
+                                          [
+                                            _c(
+                                              "v-btn",
+                                              { attrs: { icon: "" } },
+                                              [
+                                                _c("v-icon", [
+                                                  _vm._v("mdi-eye")
+                                                ])
                                               ],
                                               1
                                             )
-                                          : _vm._e()
+                                          ],
+                                          1
+                                        )
                                       ],
                                       1
                                     )
-                                  ],
+                                  }),
                                   1
                                 )
-                              }),
+                              ],
                               1
                             )
-                          ],
-                          1
-                        )
+                          : _vm._e()
                       ],
                       1
                     )
@@ -42979,6 +43094,163 @@ var render = function() {
               1
             )
           ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { "max-width": "400" },
+          model: {
+            value: _vm.show,
+            callback: function($$v) {
+              _vm.show = $$v
+            },
+            expression: "show"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            { staticClass: "p-3" },
+            [
+              _vm.progressDelete
+                ? _c("v-progress-linear", {
+                    attrs: { indeterminate: "", color: "red darken-2" }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                { staticClass: "grey lighten-5" },
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12" } },
+                    [
+                      _vm.createError
+                        ? _c("v-alert", { attrs: { type: "error" } }, [
+                            _vm._v("Error in the text field")
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("h5", [_vm._v("Title")]),
+                      _vm._v(" "),
+                      _c("v-text-field", {
+                        attrs: {
+                          solo: "",
+                          "hide-details": "",
+                          readonly: _vm.showObj.author_id !== _vm.auth.id
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.isChange = true
+                          }
+                        },
+                        model: {
+                          value: _vm.showObj.title,
+                          callback: function($$v) {
+                            _vm.$set(_vm.showObj, "title", $$v)
+                          },
+                          expression: "showObj.title"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "py-0", attrs: { cols: "12" } },
+                    [
+                      _c("h5", [_vm._v("Description")]),
+                      _vm._v(" "),
+                      _c("v-textarea", {
+                        staticClass: "blue",
+                        attrs: {
+                          readonly: _vm.showObj.author_id !== _vm.auth.id,
+                          solo: "",
+                          "hide-details": ""
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.isChange = true
+                          }
+                        },
+                        model: {
+                          value: _vm.showObj.description,
+                          callback: function($$v) {
+                            _vm.$set(_vm.showObj, "description", $$v)
+                          },
+                          expression: "showObj.description"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-col", { attrs: { cols: "12" } }, [
+                    _vm._v(
+                      "\n                By: " +
+                        _vm._s(_vm.showObj.author) +
+                        "\n            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm.showObj.author_id === _vm.auth.id
+                    ? _c(
+                        "v-col",
+                        { attrs: { cols: "6" } },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                text: "",
+                                block: "",
+                                dark: "",
+                                color: "red"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.delCrud(_vm.showObj.id)
+                                }
+                              }
+                            },
+                            [_vm._v("Delete")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.showObj.author_id === _vm.auth.id
+                    ? _c(
+                        "v-col",
+                        { attrs: { cols: "6" } },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                block: "",
+                                color: "blue white--text",
+                                disabled: !_vm.isChange
+                              }
+                            },
+                            [_vm._v("Save")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       )
@@ -98213,14 +98485,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuetify/lib/components/VAlert */ "./node_modules/vuetify/lib/components/VAlert/index.js");
 /* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/index.js");
-/* harmony import */ var vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VCheckbox */ "./node_modules/vuetify/lib/components/VCheckbox/index.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
-/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/index.js");
-/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
-/* harmony import */ var vuetify_lib_components_VProgressLinear__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VProgressLinear */ "./node_modules/vuetify/lib/components/VProgressLinear/index.js");
-/* harmony import */ var vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VSheet */ "./node_modules/vuetify/lib/components/VSheet/index.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/index.js");
-/* harmony import */ var vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VTextarea */ "./node_modules/vuetify/lib/components/VTextarea/index.js");
+/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
+/* harmony import */ var vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VCheckbox */ "./node_modules/vuetify/lib/components/VCheckbox/index.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
+/* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/index.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/index.js");
+/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
+/* harmony import */ var vuetify_lib_components_VProgressLinear__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VProgressLinear */ "./node_modules/vuetify/lib/components/VProgressLinear/index.js");
+/* harmony import */ var vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VSheet */ "./node_modules/vuetify/lib/components/VSheet/index.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/index.js");
+/* harmony import */ var vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VTextarea */ "./node_modules/vuetify/lib/components/VTextarea/index.js");
 
 
 
@@ -98259,7 +98533,9 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__["VAlert"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_6__["VCheckbox"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VContainer"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_8__["VIcon"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VList"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItem"],VListItemAction: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItemAction"],VListItemContent: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItemContent"],VListItemGroup: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItemGroup"],VListItemSubtitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItemSubtitle"],VListItemTitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItemTitle"],VProgressLinear: vuetify_lib_components_VProgressLinear__WEBPACK_IMPORTED_MODULE_10__["VProgressLinear"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VRow"],VSheet: vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_11__["VSheet"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_12__["VTextField"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_13__["VTextarea"]})
+
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__["VAlert"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCard"],VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_7__["VCheckbox"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VContainer"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_9__["VDialog"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_10__["VIcon"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_11__["VList"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_11__["VListItem"],VListItemAction: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_11__["VListItemAction"],VListItemContent: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_11__["VListItemContent"],VListItemGroup: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_11__["VListItemGroup"],VListItemSubtitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_11__["VListItemSubtitle"],VListItemTitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_11__["VListItemTitle"],VProgressLinear: vuetify_lib_components_VProgressLinear__WEBPACK_IMPORTED_MODULE_12__["VProgressLinear"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VRow"],VSheet: vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_13__["VSheet"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_14__["VTextField"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_15__["VTextarea"]})
 
 
 /* hot reload */

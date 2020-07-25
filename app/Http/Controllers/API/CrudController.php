@@ -27,7 +27,7 @@ class CrudController extends Controller
      */
     public function index()
     {
-        return Crud::orderBy('created_at', 'DESC')->get();
+        return Crud::with('author')->orderBy('created_at', 'DESC')->get();
     }
 
     /**
