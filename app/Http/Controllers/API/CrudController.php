@@ -27,7 +27,7 @@ class CrudController extends Controller
      */
     public function index()
     {
-        return Crud::all();
+        return Crud::orderBy('created_at', 'DESC')->get();
     }
 
     /**
@@ -91,9 +91,11 @@ class CrudController extends Controller
 
         //Check property
         if($toBeDestroyed->author_id == Auth::user()->id){
+            $toBeDestroyed->delete();
             
+            return response([ 'PlacedInTrash' => $toBeDestroyed ], 200);
         }
-        return 'fail';
-        //return $toBeDestroyed;
+        
+        return response(['Message'=> 'Unauthorized action.'], 401);
     }
 }

@@ -3,6 +3,7 @@
      <v-row>
         <v-col cols="12" md="3">
             <div class="text-center green--text accent-4"><h3>Create</h3></div>
+            <hr>
             <v-progress-linear
             v-if="progressCreate"
             indeterminate
@@ -36,17 +37,21 @@
                 <span class="red--text accent-3">Delete</span>
                 </h3>
             </div>
+            <hr>
             <div>
                 <v-sheet
                 class="overflow-y-auto"
                 max-height="370"
               >
-                <v-container class="grey lighten-5" style="height: 500px;">
+                <v-alert v-if="error" type="error">{{errorTxt}}</v-alert>
+                <v-container class="grey lighten-5" style="height: 500px; position: relative">
                     <v-list class="transparent">
                     <v-list-item-group v-model="item" color="primary">
                         <v-list-item
-                        v-for="(item, i) in crud_data"
+                        v-for="(item, i) in crud_display"
                         :key="i"
+                        @click="overlay= !overlay"
+                        :class="item.author_id === authId? 'green lighten-5':'yellow lighten-4'"
                         >
                         <v-list-item-content>
                             <v-list-item-title v-text="item.title"></v-list-item-title>
@@ -63,9 +68,14 @@
                 </v-container>
                 </v-sheet>
             </div>
+            <div class="d-flex px-4 justify-end">
+                <v-checkbox color="success" v-model="myworkFilter" class="m-0 ml-1"></v-checkbox>
+                <h6 class="m-1 p-1">My Works</h6>
+            </div>
         </v-col>
         <v-col cols="12" md="3">
             <div class="text-center"><h3>Json</h3></div>
+            <hr>
             <div>
               <v-sheet
                 class="overflow-y-auto"
@@ -95,33 +105,64 @@ export default {
   data(){
     return{
        create: { title: '', description: '' },
-       crud_data: null,
+       crud_data: [],
        crud_json: {
            request: '',
            response: null
        },
        item: '',
+       filter: '',
+       error: false,
+       errorTxt: '',
        createError: false,
-       progressCreate: false
+       progressCreate: false,
+       myworkFilter: true,
+       overlay: false
     }
+  },
+  computed: {
+      crud_display: function(){
+          if( this.myworkFilter == true ){
+            return this.crud_data.filter(v => v.author_id == this.authId)
+          } return this.crud_data
+      }
   },
   methods:{
       async submitNew(){
         this.progressCreate = true  
           try{
-            const res = await axios.post('/crud', this.create)
+            const temp = this.create
+            const res = await axios.post('/crud', temp)
             this.crud_json.request = 'POST /crud:';
             this.crud_json.response = res.data;
-            this.create = { title: '', description: '' }
             this.progressCreate = false
+            this.create = { title: '', description: '' }
+
+            const {title, description} = temp
+
+            this.crud_data = [{title, description, author_id: this.authId, id: res.data.id}, ...this.crud_data]
+            
+            console.table(this.crud_data)
+
           }catch (err){
               this.createError = true
               throw err;
           }
       },
       async delCrud( id ){
-          const res = await axios.delete(`/crud/${id}`);
-          console.log(res.data)
+          try {
+              const res = await axios.delete(`/crud/${id}`);
+              this.crud_json.request = `DELETE /crud/${id}:`;
+              this.crud_json.response = res.data;
+              
+              this.crud_data = this.crud_data.filter(v => v.id != id);
+              
+              console.trace(`id: ${id} is now at Trash`);
+          }catch(err){
+              this.error = true;
+              this.errorTxt = err;
+              throw err;
+          }
       }
   }
 }

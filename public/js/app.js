@@ -3404,10 +3404,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3527,77 +3549,121 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         title: '',
         description: ''
       },
-      crud_data: null,
+      crud_data: [],
       crud_json: {
         request: '',
         response: null
       },
       item: '',
+      filter: '',
+      error: false,
+      errorTxt: '',
       createError: false,
-      progressCreate: false
+      progressCreate: false,
+      myworkFilter: true,
+      overlay: false
     };
+  },
+  computed: {
+    crud_display: function crud_display() {
+      var _this2 = this;
+
+      if (this.myworkFilter == true) {
+        return this.crud_data.filter(function (v) {
+          return v.author_id == _this2.authId;
+        });
+      }
+
+      return this.crud_data;
+    }
   },
   methods: {
     submitNew: function submitNew() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var res;
+        var temp, res, title, description;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this2.progressCreate = true;
+                _this3.progressCreate = true;
                 _context2.prev = 1;
-                _context2.next = 4;
-                return axios.post('/crud', _this2.create);
+                temp = _this3.create;
+                _context2.next = 5;
+                return axios.post('/crud', temp);
 
-              case 4:
+              case 5:
                 res = _context2.sent;
-                _this2.crud_json.request = 'POST /crud:';
-                _this2.crud_json.response = res.data;
-                _this2.create = {
+                _this3.crud_json.request = 'POST /crud:';
+                _this3.crud_json.response = res.data;
+                _this3.progressCreate = false;
+                _this3.create = {
                   title: '',
                   description: ''
                 };
-                _this2.progressCreate = false;
-                _context2.next = 15;
+                title = temp.title, description = temp.description;
+                _this3.crud_data = [{
+                  title: title,
+                  description: description,
+                  author_id: _this3.authId,
+                  id: res.data.id
+                }].concat(_toConsumableArray(_this3.crud_data));
+                console.table(_this3.crud_data);
+                _context2.next = 19;
                 break;
 
-              case 11:
-                _context2.prev = 11;
+              case 15:
+                _context2.prev = 15;
                 _context2.t0 = _context2["catch"](1);
-                _this2.createError = true;
+                _this3.createError = true;
                 throw _context2.t0;
 
-              case 15:
+              case 19:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[1, 11]]);
+        }, _callee2, null, [[1, 15]]);
       }))();
     },
     delCrud: function delCrud(id) {
+      var _this4 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
         var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.next = 2;
+                _context3.prev = 0;
+                _context3.next = 3;
                 return axios["delete"]("/crud/".concat(id));
 
-              case 2:
+              case 3:
                 res = _context3.sent;
-                console.log(res.data);
+                _this4.crud_json.request = "DELETE /crud/".concat(id, ":");
+                _this4.crud_json.response = res.data;
+                _this4.crud_data = _this4.crud_data.filter(function (v) {
+                  return v.id != id;
+                });
+                console.trace("id: ".concat(id, " is now at Trash"));
+                _context3.next = 15;
+                break;
 
-              case 4:
+              case 10:
+                _context3.prev = 10;
+                _context3.t0 = _context3["catch"](0);
+                _this4.error = true;
+                _this4.errorTxt = _context3.t0;
+                throw _context3.t0;
+
+              case 15:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3);
+        }, _callee3, null, [[0, 10]]);
       }))();
     }
   }
@@ -42631,6 +42697,8 @@ var render = function() {
                 _c("h3", [_vm._v("Create")])
               ]),
               _vm._v(" "),
+              _c("hr"),
+              _vm._v(" "),
               _vm.progressCreate
                 ? _c("v-progress-linear", {
                     attrs: { indeterminate: "", color: "yellow darken-2" }
@@ -42730,6 +42798,8 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
             _c(
               "div",
               [
@@ -42740,11 +42810,17 @@ var render = function() {
                     attrs: { "max-height": "370" }
                   },
                   [
+                    _vm.error
+                      ? _c("v-alert", { attrs: { type: "error" } }, [
+                          _vm._v(_vm._s(_vm.errorTxt))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
                     _c(
                       "v-container",
                       {
                         staticClass: "grey lighten-5",
-                        staticStyle: { height: "500px" }
+                        staticStyle: { height: "500px", position: "relative" }
                       },
                       [
                         _c(
@@ -42763,10 +42839,21 @@ var render = function() {
                                   expression: "item"
                                 }
                               },
-                              _vm._l(_vm.crud_data, function(item, i) {
+                              _vm._l(_vm.crud_display, function(item, i) {
                                 return _c(
                                   "v-list-item",
-                                  { key: i },
+                                  {
+                                    key: i,
+                                    class:
+                                      item.author_id === _vm.authId
+                                        ? "green lighten-5"
+                                        : "yellow lighten-4",
+                                    on: {
+                                      click: function($event) {
+                                        _vm.overlay = !_vm.overlay
+                                      }
+                                    }
+                                  },
                                   [
                                     _c(
                                       "v-list-item-content",
@@ -42832,6 +42919,27 @@ var render = function() {
                 )
               ],
               1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "d-flex px-4 justify-end" },
+              [
+                _c("v-checkbox", {
+                  staticClass: "m-0 ml-1",
+                  attrs: { color: "success" },
+                  model: {
+                    value: _vm.myworkFilter,
+                    callback: function($$v) {
+                      _vm.myworkFilter = $$v
+                    },
+                    expression: "myworkFilter"
+                  }
+                }),
+                _vm._v(" "),
+                _c("h6", { staticClass: "m-1 p-1" }, [_vm._v("My Works")])
+              ],
+              1
             )
           ]),
           _vm._v(" "),
@@ -42839,6 +42947,8 @@ var render = function() {
             _c("div", { staticClass: "text-center" }, [
               _c("h3", [_vm._v("Json")])
             ]),
+            _vm._v(" "),
+            _c("hr"),
             _vm._v(" "),
             _c(
               "div",
@@ -98103,13 +98213,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuetify/lib/components/VAlert */ "./node_modules/vuetify/lib/components/VAlert/index.js");
 /* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/index.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
-/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/index.js");
-/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
-/* harmony import */ var vuetify_lib_components_VProgressLinear__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VProgressLinear */ "./node_modules/vuetify/lib/components/VProgressLinear/index.js");
-/* harmony import */ var vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VSheet */ "./node_modules/vuetify/lib/components/VSheet/index.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/index.js");
-/* harmony import */ var vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VTextarea */ "./node_modules/vuetify/lib/components/VTextarea/index.js");
+/* harmony import */ var vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VCheckbox */ "./node_modules/vuetify/lib/components/VCheckbox/index.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/index.js");
+/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
+/* harmony import */ var vuetify_lib_components_VProgressLinear__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VProgressLinear */ "./node_modules/vuetify/lib/components/VProgressLinear/index.js");
+/* harmony import */ var vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VSheet */ "./node_modules/vuetify/lib/components/VSheet/index.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/index.js");
+/* harmony import */ var vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VTextarea */ "./node_modules/vuetify/lib/components/VTextarea/index.js");
 
 
 
@@ -98147,7 +98258,8 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__["VAlert"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__["VContainer"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_7__["VIcon"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_8__["VList"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_8__["VListItem"],VListItemAction: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_8__["VListItemAction"],VListItemContent: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_8__["VListItemContent"],VListItemGroup: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_8__["VListItemGroup"],VListItemSubtitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_8__["VListItemSubtitle"],VListItemTitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_8__["VListItemTitle"],VProgressLinear: vuetify_lib_components_VProgressLinear__WEBPACK_IMPORTED_MODULE_9__["VProgressLinear"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__["VRow"],VSheet: vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_10__["VSheet"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_11__["VTextField"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_12__["VTextarea"]})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_4__["VAlert"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_6__["VCheckbox"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VContainer"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_8__["VIcon"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VList"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItem"],VListItemAction: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItemAction"],VListItemContent: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItemContent"],VListItemGroup: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItemGroup"],VListItemSubtitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItemSubtitle"],VListItemTitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItemTitle"],VProgressLinear: vuetify_lib_components_VProgressLinear__WEBPACK_IMPORTED_MODULE_10__["VProgressLinear"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VRow"],VSheet: vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_11__["VSheet"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_12__["VTextField"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_13__["VTextarea"]})
 
 
 /* hot reload */
