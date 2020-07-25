@@ -11,15 +11,11 @@
       <v-avatar>
       <v-img :src="auth.avatar" max-height="60" max-width="60"/>
       </v-avatar>
-      <v-toolbar-title id="name" class="text-capitalize mx-2" style="font-size: 2rem; font-family: 'Indie Flower', cursive;">
+      <v-toolbar-title id="name" class="text-capitalize mx-2 d-none d-sm-flex" style="font-size: 2rem; font-family: 'Indie Flower', cursive;">
           {{ auth.name }}
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-      
-      <v-toolbar-title class="mx-2" style="font-size: 2rem; font-family: 'Ranchers', cursive;">
-          My
-      </v-toolbar-title>
 
       <v-toolbar-title id="title" class="mx-2" style="font-size: 2rem; font-family: 'Ranchers', cursive;">
           {{ sectionTitle }}

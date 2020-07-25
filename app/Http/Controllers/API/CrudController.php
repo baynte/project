@@ -76,7 +76,28 @@ class CrudController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $valid = $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string'
+        ]);
+        
+        if($valid){
+            $toBeUpdated = Crud::find($id);
+            
+            //Check property
+            if($toBeUpdated->author_id == Auth::user()->id){
+                
+                $toBeUpdated->title = $request->title;
+                $toBeUpdated->description = $request->description;
+
+                $toBeUpdated->save();
+                
+                return response([ 'Successfuly Updated' => $toBeUpdated ], 200);
+            }else {
+                return response(['Unauthorized'], 401);
+            }
+        }
+        return response(['Invalid Entity'], 422);
     }
 
     /**

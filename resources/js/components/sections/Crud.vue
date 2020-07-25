@@ -9,7 +9,7 @@
             indeterminate
             color="yellow darken-2"
             ></v-progress-linear>
-            <v-row class="grey lighten-5">
+            <v-row class="yellow lighten-5">
                 <v-col cols="12">
                     <v-alert v-if="createError" type="error">Error in the text field</v-alert>
                     <h5>Title</h5>
@@ -44,7 +44,7 @@
                 max-height="370"
               >
                 <v-alert v-if="error" type="error">{{errorTxt}}</v-alert>
-                <v-container class="grey lighten-5" style="height: 500px; position: relative">
+                <v-container class="yellow lighten-5" style="height: 500px; position: relative">
                     <v-progress-linear
                     v-if="progressRead"
                     indeterminate
@@ -88,7 +88,7 @@
                 class="overflow-y-auto"
                 max-height="370"
               >
-                <v-container class="grey lighten-5" style="height: 500px;">
+                <v-container class="yellow lighten-5" style="height: 500px;">
                     <h5>{{crud_json.request}}</h5>
                     <h6>{{crud_json.response}}</h6>
                 </v-container>
@@ -99,26 +99,29 @@
 
     <v-dialog max-width="400" v-model="show">
         <v-card class="p-3">
+            <div class="d-flex justify-end white">
+            <v-btn icon @click="show = !show"><v-icon>mdi-close</v-icon></v-btn>
+        </div>
             <v-progress-linear
-                v-if="progressDelete"
+                v-if="progressDelete || progressUpdate"
                 indeterminate
-                color="red darken-2"
+                :color="progressDelete ? 'red darken-2':'blue darken-2'"
             ></v-progress-linear>
-            <v-row class="grey lighten-5">
+            <v-row class="yellow lighten-5">
                 <v-col cols="12">
                     <v-alert v-if="createError" type="error">Error in the text field</v-alert>
                     <h5>Title</h5>
                     <v-text-field solo hide-details 
                       :readonly="showObj.author_id !== auth.id"
                       v-model="showObj.title"
-                      v-on:change="isChange = true"
+                      v-on:input="isChange = true"
                     />
                 </v-col>
                 <v-col cols="12" class="py-0">
                     <h5>Description</h5>
                     <v-textarea :readonly="showObj.author_id !== auth.id"
                     solo
-                    v-on:change="isChange = true"
+                    v-on:input="isChange = true"
                     v-model="showObj.description"
                     class="blue"
                     hide-details
@@ -131,7 +134,7 @@
                     <v-btn text block dark color="red" @click="delCrud( showObj.id )">Delete</v-btn>
                 </v-col>
                 <v-col cols="6" v-if="showObj.author_id === auth.id">
-                    <v-btn block color="blue white--text" :disabled="!isChange">Save</v-btn>
+                    <v-btn block color="blue white--text" :disabled="!isChange" @click="patchCrud">Save</v-btn>
                 </v-col>
             </v-row>
         </v-card>
@@ -182,6 +185,7 @@ export default {
        progressCreate: false,
        progressRead: false,
        progressDelete: false,
+       progressUpdate: false,
        myworkFilter: true,
        overlay: false
     }
@@ -237,6 +241,30 @@ export default {
       async showCard({ id, title, description, author_id, author}){
           this.show = true;
           this.showObj = { id, title, description, author_id, author: author.name };
+      },
+      async patchCrud(){
+          const { id, author_id, title, description, author } = this.showObj;
+          this.progressUpdate = true
+          try{
+              const res = await axios.put(`/crud/${id}`,{title, description});
+              this.crud_json.request = `UPDATE /crud/${id}:`;
+              this.crud_json.response = res.data;
+              
+              
+              console.log(this.crud_data)
+            //   this.crud_data = this.crud_data.forEach(function(v){
+            //       if(v.id === id){
+            //           return { title, description }
+            //       }
+            //   });
+              this.progressUpdate = false
+          }catch(err){
+              this.error = true;
+              this.errorTxt = err;
+              throw err;
+          }
+          
+          console.log(res.data);
       }
   }
 }

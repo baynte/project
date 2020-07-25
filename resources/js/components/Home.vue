@@ -1,6 +1,6 @@
 <template>
   <v-app>
-      <navbar :auth="auth" sectionTitle="CRUD API"></navbar>
+      <navbar :auth="auth" sectionTitle="CRUD Api"></navbar>
       <v-sheet height="10000" class="mt-10">
         <crud-section :csrf="csrf" :auth="auth"></crud-section>
       </v-sheet>

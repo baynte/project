@@ -3324,10 +3324,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3561,6 +3557,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 //import Axios from 'axios'
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['csrf', 'auth'],
@@ -3568,7 +3567,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var _this = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var res;
+      var _res;
+
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -3579,10 +3579,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return axios.get('/crud');
 
             case 4:
-              res = _context.sent;
+              _res = _context.sent;
               _this.crud_json.request = 'GET /crud:';
-              _this.crud_json.response = res.data;
-              _this.crud_data = res.data;
+              _this.crud_json.response = _res.data;
+              _this.crud_data = _res.data;
               _this.progressRead = false;
               _context.next = 16;
               break;
@@ -3630,6 +3630,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       progressCreate: false,
       progressRead: false,
       progressDelete: false,
+      progressUpdate: false,
       myworkFilter: true,
       overlay: false
     };
@@ -3652,7 +3653,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var temp, res, title, description;
+        var temp, _res2, title, description;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -3665,9 +3667,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.post('/crud', temp);
 
               case 6:
-                res = _context2.sent;
+                _res2 = _context2.sent;
                 _this3.crud_json.request = 'POST /crud:';
-                _this3.crud_json.response = res.data;
+                _this3.crud_json.response = _res2.data;
                 _this3.progressCreate = false;
                 _this3.create = {
                   title: '',
@@ -3678,7 +3680,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   title: title,
                   description: description,
                   author_id: _this3.auth.id,
-                  id: res.data.id,
+                  id: _res2.data.id,
                   author: _this3.auth
                 }].concat(_toConsumableArray(_this3.crud_data));
                 _this3.progressRead = false;
@@ -3704,7 +3706,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var res;
+        var _res3;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -3715,9 +3718,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios["delete"]("/crud/".concat(id));
 
               case 4:
-                res = _context3.sent;
+                _res3 = _context3.sent;
                 _this4.crud_json.request = "DELETE /crud/".concat(id, ":");
-                _this4.crud_json.response = res.data;
+                _this4.crud_json.response = _res3.data;
                 _this4.crud_data = _this4.crud_data.filter(function (v) {
                   return v.id != id;
                 });
@@ -3767,6 +3770,57 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee4);
+      }))();
+    },
+    patchCrud: function patchCrud() {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var _this6$showObj, id, author_id, title, description, author, _res4;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _this6$showObj = _this6.showObj, id = _this6$showObj.id, author_id = _this6$showObj.author_id, title = _this6$showObj.title, description = _this6$showObj.description, author = _this6$showObj.author;
+                _this6.progressUpdate = true;
+                _context5.prev = 2;
+                _context5.next = 5;
+                return axios.put("/crud/".concat(id), {
+                  title: title,
+                  description: description
+                });
+
+              case 5:
+                _res4 = _context5.sent;
+                _this6.crud_json.request = "UPDATE /crud/".concat(id, ":");
+                _this6.crud_json.response = _res4.data;
+                console.log(_this6.crud_data); //   this.crud_data = this.crud_data.forEach(function(v){
+                //       if(v.id === id){
+                //           return { title, description }
+                //       }
+                //   });
+
+                _this6.progressUpdate = false;
+                _context5.next = 17;
+                break;
+
+              case 12:
+                _context5.prev = 12;
+                _context5.t0 = _context5["catch"](2);
+                _this6.error = true;
+                _this6.errorTxt = _context5.t0;
+                throw _context5.t0;
+
+              case 17:
+                console.log(res.data);
+
+              case 18:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, null, [[2, 12]]);
       }))();
     }
   }
@@ -42529,7 +42583,7 @@ var render = function() {
   return _c(
     "v-app",
     [
-      _c("navbar", { attrs: { auth: _vm.auth, sectionTitle: "CRUD API" } }),
+      _c("navbar", { attrs: { auth: _vm.auth, sectionTitle: "CRUD Api" } }),
       _vm._v(" "),
       _c(
         "v-sheet",
@@ -42662,7 +42716,7 @@ var render = function() {
       _c(
         "v-toolbar-title",
         {
-          staticClass: "text-capitalize mx-2",
+          staticClass: "text-capitalize mx-2 d-none d-sm-flex",
           staticStyle: {
             "font-size": "2rem",
             "font-family": "'Indie Flower', cursive"
@@ -42673,18 +42727,6 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("v-spacer"),
-      _vm._v(" "),
-      _c(
-        "v-toolbar-title",
-        {
-          staticClass: "mx-2",
-          staticStyle: {
-            "font-size": "2rem",
-            "font-family": "'Ranchers', cursive"
-          }
-        },
-        [_vm._v("\n        My\n    ")]
-      ),
       _vm._v(" "),
       _c(
         "v-toolbar-title",
@@ -42806,7 +42848,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-row",
-                { staticClass: "grey lighten-5" },
+                { staticClass: "yellow lighten-5" },
                 [
                   _c(
                     "v-col",
@@ -42918,7 +42960,7 @@ var render = function() {
                     _c(
                       "v-container",
                       {
-                        staticClass: "grey lighten-5",
+                        staticClass: "yellow lighten-5",
                         staticStyle: { height: "500px", position: "relative" }
                       },
                       [
@@ -43078,7 +43120,7 @@ var render = function() {
                     _c(
                       "v-container",
                       {
-                        staticClass: "grey lighten-5",
+                        staticClass: "yellow lighten-5",
                         staticStyle: { height: "500px" }
                       },
                       [
@@ -43115,15 +43157,41 @@ var render = function() {
             "v-card",
             { staticClass: "p-3" },
             [
-              _vm.progressDelete
+              _c(
+                "div",
+                { staticClass: "d-flex justify-end white" },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { icon: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.show = !_vm.show
+                        }
+                      }
+                    },
+                    [_c("v-icon", [_vm._v("mdi-close")])],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm.progressDelete || _vm.progressUpdate
                 ? _c("v-progress-linear", {
-                    attrs: { indeterminate: "", color: "red darken-2" }
+                    attrs: {
+                      indeterminate: "",
+                      color: _vm.progressDelete
+                        ? "red darken-2"
+                        : "blue darken-2"
+                    }
                   })
                 : _vm._e(),
               _vm._v(" "),
               _c(
                 "v-row",
-                { staticClass: "grey lighten-5" },
+                { staticClass: "yellow lighten-5" },
                 [
                   _c(
                     "v-col",
@@ -43144,7 +43212,7 @@ var render = function() {
                           readonly: _vm.showObj.author_id !== _vm.auth.id
                         },
                         on: {
-                          change: function($event) {
+                          input: function($event) {
                             _vm.isChange = true
                           }
                         },
@@ -43174,7 +43242,7 @@ var render = function() {
                           "hide-details": ""
                         },
                         on: {
-                          change: function($event) {
+                          input: function($event) {
                             _vm.isChange = true
                           }
                         },
@@ -43237,7 +43305,8 @@ var render = function() {
                                 block: "",
                                 color: "blue white--text",
                                 disabled: !_vm.isChange
-                              }
+                              },
+                              on: { click: _vm.patchCrud }
                             },
                             [_vm._v("Save")]
                           )
