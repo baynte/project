@@ -53,7 +53,7 @@
                             <v-list-item-subtitle v-text="item.description"></v-list-item-subtitle>
                         </v-list-item-content>
                         <v-list-item-action>
-                        <v-btn icon>
+                        <v-btn icon @click="delCrud(item.id)" v-if="item.author_id === authId">
                             <v-icon color="red">mdi-delete</v-icon>
                         </v-btn>
                         </v-list-item-action>
@@ -85,7 +85,7 @@
 <script>
 //import Axios from 'axios'
 export default {
-  props: [ 'csrf' ],
+  props: [ 'csrf', 'authId' ],
   async mounted(){
         const res = await axios.get('/crud');
         this.crud_json.request = 'GET /crud:';
@@ -118,6 +118,10 @@ export default {
               this.createError = true
               throw err;
           }
+      },
+      async delCrud( id ){
+          const res = await axios.delete(`/crud/${id}`);
+          console.log(res.data)
       }
   }
 }

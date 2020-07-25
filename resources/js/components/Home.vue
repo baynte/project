@@ -2,7 +2,7 @@
   <v-app>
       <navbar :auth="auth" sectionTitle="CRUD API"></navbar>
       <v-sheet height="10000" class="mt-10">
-        <crud-section :csrf="csrf"></crud-section>
+        <crud-section :csrf="csrf" :auth-id="auth.id"></crud-section>
       </v-sheet>
       
       <v-snackbar

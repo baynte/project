@@ -3494,7 +3494,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //import Axios from 'axios'
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['csrf'],
+  props: ['csrf', 'authId'],
   mounted: function mounted() {
     var _this = this;
 
@@ -3576,6 +3576,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee2, null, [[1, 11]]);
+      }))();
+    },
+    delCrud: function delCrud(id) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios["delete"]("/crud/".concat(id));
+
+              case 2:
+                res = _context3.sent;
+                console.log(res.data);
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
       }))();
     }
   }
@@ -42343,7 +42365,11 @@ var render = function() {
       _c(
         "v-sheet",
         { staticClass: "mt-10", attrs: { height: "10000" } },
-        [_c("crud-section", { attrs: { csrf: _vm.csrf } })],
+        [
+          _c("crud-section", {
+            attrs: { csrf: _vm.csrf, "auth-id": _vm.auth.id }
+          })
+        ],
         1
       ),
       _vm._v(" "),
@@ -42765,18 +42791,27 @@ var render = function() {
                                     _c(
                                       "v-list-item-action",
                                       [
-                                        _c(
-                                          "v-btn",
-                                          { attrs: { icon: "" } },
-                                          [
-                                            _c(
-                                              "v-icon",
-                                              { attrs: { color: "red" } },
-                                              [_vm._v("mdi-delete")]
+                                        item.author_id === _vm.authId
+                                          ? _c(
+                                              "v-btn",
+                                              {
+                                                attrs: { icon: "" },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.delCrud(item.id)
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c(
+                                                  "v-icon",
+                                                  { attrs: { color: "red" } },
+                                                  [_vm._v("mdi-delete")]
+                                                )
+                                              ],
+                                              1
                                             )
-                                          ],
-                                          1
-                                        )
+                                          : _vm._e()
                                       ],
                                       1
                                     )

@@ -20,6 +20,7 @@ class CreateCrudTable extends Migration
                 ->onDelete('cascade');
             $table->string('title');
             $table->text('description');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

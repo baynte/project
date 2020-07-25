@@ -89,6 +89,11 @@ class CrudController extends Controller
     {
         $toBeDestroyed = Crud::find($id);
 
-        return $toBeDestroyed;
+        //Check property
+        if($toBeDestroyed->author_id == Auth::user()->id){
+            
+        }
+        return 'fail';
+        //return $toBeDestroyed;
     }
 }
