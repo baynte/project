@@ -214,7 +214,8 @@ export default {
             this.crud_data = [{title, description, author_id: this.auth.id, id: res.data.id, author: this.auth}, ...this.crud_data];
             
             this.progressRead = false;
-            console.table(this.crud_data)
+            
+            console.trace('new item is now Stored');
 
           }catch (err){
               this.createError = true
@@ -249,22 +250,23 @@ export default {
               const res = await axios.put(`/crud/${id}`,{title, description});
               this.crud_json.request = `UPDATE /crud/${id}:`;
               this.crud_json.response = res.data;
-              
-              
-              console.log(this.crud_data)
-            //   this.crud_data = this.crud_data.forEach(function(v){
-            //       if(v.id === id){
-            //           return { title, description }
-            //       }
-            //   });
+
+              this.crud_data.forEach(element => {
+                  if(element.id == id){
+                    element.title = title
+                    element.description = description
+                  }
+                  return element;
+              });
+
               this.progressUpdate = false
+              console.trace(`id: ${id} is now at Updated`)
           }catch(err){
               this.error = true;
               this.errorTxt = err;
               throw err;
           }
           
-          console.log(res.data);
       }
   }
 }

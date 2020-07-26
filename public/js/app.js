@@ -3567,8 +3567,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var _this = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var _res;
-
+      var res;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -3579,10 +3578,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return axios.get('/crud');
 
             case 4:
-              _res = _context.sent;
+              res = _context.sent;
               _this.crud_json.request = 'GET /crud:';
-              _this.crud_json.response = _res.data;
-              _this.crud_data = _res.data;
+              _this.crud_json.response = res.data;
+              _this.crud_data = res.data;
               _this.progressRead = false;
               _context.next = 16;
               break;
@@ -3653,8 +3652,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var temp, _res2, title, description;
-
+        var temp, res, title, description;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -3667,9 +3665,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.post('/crud', temp);
 
               case 6:
-                _res2 = _context2.sent;
+                res = _context2.sent;
                 _this3.crud_json.request = 'POST /crud:';
-                _this3.crud_json.response = _res2.data;
+                _this3.crud_json.response = res.data;
                 _this3.progressCreate = false;
                 _this3.create = {
                   title: '',
@@ -3680,11 +3678,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   title: title,
                   description: description,
                   author_id: _this3.auth.id,
-                  id: _res2.data.id,
+                  id: res.data.id,
                   author: _this3.auth
                 }].concat(_toConsumableArray(_this3.crud_data));
                 _this3.progressRead = false;
-                console.table(_this3.crud_data);
+                console.trace('new item is now Stored');
                 _context2.next = 21;
                 break;
 
@@ -3706,8 +3704,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var _res3;
-
+        var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -3718,9 +3715,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios["delete"]("/crud/".concat(id));
 
               case 4:
-                _res3 = _context3.sent;
+                res = _context3.sent;
                 _this4.crud_json.request = "DELETE /crud/".concat(id, ":");
-                _this4.crud_json.response = _res3.data;
+                _this4.crud_json.response = res.data;
                 _this4.crud_data = _this4.crud_data.filter(function (v) {
                   return v.id != id;
                 });
@@ -3776,7 +3773,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-        var _this6$showObj, id, author_id, title, description, author, _res4;
+        var _this6$showObj, id, author_id, title, description, author, res;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
@@ -3792,35 +3789,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 5:
-                _res4 = _context5.sent;
+                res = _context5.sent;
                 _this6.crud_json.request = "UPDATE /crud/".concat(id, ":");
-                _this6.crud_json.response = _res4.data;
-                console.log(_this6.crud_data); //   this.crud_data = this.crud_data.forEach(function(v){
-                //       if(v.id === id){
-                //           return { title, description }
-                //       }
-                //   });
+                _this6.crud_json.response = res.data;
+
+                _this6.crud_data.forEach(function (element) {
+                  if (element.id == id) {
+                    element.title = title;
+                    element.description = description;
+                  }
+
+                  return element;
+                });
 
                 _this6.progressUpdate = false;
-                _context5.next = 17;
+                console.trace("id: ".concat(id, " is now at Updated"));
+                _context5.next = 18;
                 break;
 
-              case 12:
-                _context5.prev = 12;
+              case 13:
+                _context5.prev = 13;
                 _context5.t0 = _context5["catch"](2);
                 _this6.error = true;
                 _this6.errorTxt = _context5.t0;
                 throw _context5.t0;
-
-              case 17:
-                console.log(res.data);
 
               case 18:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5, null, [[2, 12]]);
+        }, _callee5, null, [[2, 13]]);
       }))();
     }
   }
