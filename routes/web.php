@@ -30,4 +30,4 @@ Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallba
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::apiResource('crud', 'API\CrudController');
+Route::apiResource('crud', 'CrudController');
