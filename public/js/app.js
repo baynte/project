@@ -3560,6 +3560,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 //import Axios from 'axios'
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['csrf', 'auth'],
@@ -3631,8 +3634,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       progressDelete: false,
       progressUpdate: false,
       myworkFilter: true,
-      overlay: false
+      successUpdate: false
     };
+  },
+  watch: {
+    show: function show() {
+      this.successUpdate = false;
+    }
   },
   computed: {
     crud_display: function crud_display() {
@@ -3803,23 +3811,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
                 _this6.progressUpdate = false;
+                _this6.successUpdate = true;
                 console.trace("id: ".concat(id, " is now at Updated"));
-                _context5.next = 18;
+                _context5.next = 19;
                 break;
 
-              case 13:
-                _context5.prev = 13;
+              case 14:
+                _context5.prev = 14;
                 _context5.t0 = _context5["catch"](2);
                 _this6.error = true;
                 _this6.errorTxt = _context5.t0;
                 throw _context5.t0;
 
-              case 18:
+              case 19:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5, null, [[2, 13]]);
+        }, _callee5, null, [[2, 14]]);
       }))();
     }
   }
@@ -43192,6 +43201,21 @@ var render = function() {
                 "v-row",
                 { staticClass: "yellow lighten-5" },
                 [
+                  _vm.successUpdate
+                    ? _c(
+                        "v-col",
+                        { staticClass: "p-0", attrs: { cols: "12" } },
+                        [
+                          _c(
+                            "v-alert",
+                            { staticClass: "m-0", attrs: { type: "success" } },
+                            [_vm._v("Updated")]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c(
                     "v-col",
                     { attrs: { cols: "12" } },

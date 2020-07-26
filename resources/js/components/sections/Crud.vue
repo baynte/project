@@ -108,7 +108,10 @@
                 :color="progressDelete ? 'red darken-2':'blue darken-2'"
             ></v-progress-linear>
             <v-row class="yellow lighten-5">
-                <v-col cols="12">
+                <v-col cols="12" class="p-0" v-if="successUpdate">
+                    <v-alert class="m-0" type="success">Updated</v-alert>
+                </v-col>
+                <v-col cols="12" class="">
                     <v-alert v-if="createError" type="error">Error in the text field</v-alert>
                     <h5>Title</h5>
                     <v-text-field solo hide-details 
@@ -187,8 +190,13 @@ export default {
        progressDelete: false,
        progressUpdate: false,
        myworkFilter: true,
-       overlay: false
+       successUpdate: false,
     }
+  },
+  watch:{
+      show: function(){
+          this.successUpdate = false
+      }
   },
   computed: {
       crud_display: function(){
@@ -260,6 +268,7 @@ export default {
               });
 
               this.progressUpdate = false
+              this.successUpdate = true
               console.trace(`id: ${id} is now at Updated`)
           }catch(err){
               this.error = true;
