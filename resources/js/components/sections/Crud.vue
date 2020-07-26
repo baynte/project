@@ -44,7 +44,7 @@
                 max-height="370"
               >
                 <v-alert v-if="error" type="error">{{errorTxt}}</v-alert>
-                <v-container class="yellow lighten-5" style="height: 500px; position: relative">
+                <v-container class="yellow lighten-5" style="position: relative">
                     <v-progress-linear
                     v-if="progressRead"
                     indeterminate
@@ -88,7 +88,7 @@
                 class="overflow-y-auto"
                 max-height="370"
               >
-                <v-container class="yellow lighten-5" style="height: 500px;">
+                <v-container class="yellow lighten-5" style="min-height: 500px;">
                     <h5>{{crud_json.request}}</h5>
                     <h6>{{crud_json.response}}</h6>
                 </v-container>

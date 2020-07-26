@@ -1,9 +1,9 @@
 <template>
   <v-app>
       <navbar :auth="auth" sectionTitle="CRUD Api"></navbar>
-      <v-sheet height="10000" class="mt-10">
+      <v-sheet class="mt-10">
         <crud-section :csrf="csrf" :auth="auth"></crud-section>
-        <ai-section></ai-section>
+        <ai-section class="blue p-5 mt-md-16" v-if="open"></ai-section>
       </v-sheet>
       
       <v-snackbar
@@ -31,9 +31,10 @@
         </template>
         </v-snackbar>
 
-      <v-footer app color="white">
+      <v-footer app color="transparent">
+          <v-btn color="primary" text @click="open = !open">{{ !open ? 'OPEN Simple Face Recognition': 'Close Face Recognition' }}</v-btn>
           <v-spacer/>
-          <v-btn color="red" text @click="snackbar = true">logout</v-btn>
+          <v-btn color="red" dark rounded @click="snackbar = true">logout</v-btn>
       </v-footer>
   </v-app>
 </template>
@@ -60,7 +61,8 @@ export default {
     data(){
       return{
           snackbar: false,
-          text: 'Are you sure??'
+          text: 'Are you sure??',
+          open: false
       }
     },
     methods: {
@@ -68,6 +70,13 @@ export default {
             Axios.post('/logout');
             window.location.replace('/login')
         }
+    },
+    watch:{
+      open(){
+        if(this.open){
+
+        }
+      }
     }
 }
 </script>
