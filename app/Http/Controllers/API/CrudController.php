@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Validation;
 
 use App\Crud;
 
@@ -36,12 +37,9 @@ class CrudController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Validation $request)
     {
-        $valid = $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string'
-        ]);
+        $valid = $request->validated();
 
         if($valid){
             $new = new Crud;
@@ -74,12 +72,10 @@ class CrudController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Validation $request, $id)
     {
-        $valid = $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string'
-        ]);
+        $valid = $request->validated();
+        
         
         if($valid){
             $toBeUpdated = Crud::find($id);
