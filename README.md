@@ -4,7 +4,7 @@
 
 ## About Laravel / Vue Wattpad
 
-A simple Wattpad app with CRUD APIs using Laravel Framework as Backend with Vue as Frontend.
+A simple CRUD APIs with Face recognition using Laravel Framework as Backend with Vue as Frontend.
 
 
 ### Task for this project
