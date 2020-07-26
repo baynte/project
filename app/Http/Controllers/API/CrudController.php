@@ -36,12 +36,9 @@ class CrudController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateValidation $request)
     {
-        $valid = $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string'
-        ]);
+        $valid = $request->validated();
 
         if($valid){
             $new = new Crud;
@@ -76,10 +73,7 @@ class CrudController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $valid = $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string'
-        ]);
+        $valid = $request->validated();
         
         if($valid){
             $toBeUpdated = Crud::find($id);
