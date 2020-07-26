@@ -32,7 +32,7 @@
         </v-snackbar>
 
       <v-footer app color="transparent">
-          <v-btn color="primary" text @click="open = !open">{{ !open ? 'OPEN Simple Face Recognition': 'Close Face Recognition' }}</v-btn>
+          <v-btn color="primary" text @click="open = !open">{{ !open ? 'Simple Face Recognition': 'Close Face Recognition' }}</v-btn>
           <v-spacer/>
           <v-btn color="red" dark rounded @click="snackbar = true">logout</v-btn>
       </v-footer>
@@ -70,13 +70,6 @@ export default {
             Axios.post('/logout');
             window.location.replace('/login')
         }
-    },
-    watch:{
-      open(){
-        if(this.open){
-
-        }
-      }
     }
 }
 </script>
