@@ -3,6 +3,7 @@
       <navbar :auth="auth" sectionTitle="CRUD Api"></navbar>
       <v-sheet height="10000" class="mt-10">
         <crud-section :csrf="csrf" :auth="auth"></crud-section>
+        <ai-section></ai-section>
       </v-sheet>
       
       <v-snackbar
@@ -42,11 +43,13 @@ import Axios from 'axios'
 
 import Nav from '../components/navbar/Authorized'
 import CRUD from '../components/sections/Crud'
+import AI from '../components/sections/ArtificialInt'
 
 export default {
     components: {
         'navbar' : Nav,
-        'crud-section' : CRUD
+        'crud-section' : CRUD,
+        'ai-section': AI
     },
     props: [
         'auth', 'csrf'

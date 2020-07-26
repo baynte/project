@@ -8,6 +8,7 @@ let configureWebpack = {
       new VuetifyLoaderPlugin(),
       new CaseSensitivePathsPlugin()
     ],
+    node: { fs: 'empty' }
   }
 
 mix.webpackConfig( configureWebpack )
@@ -24,4 +25,5 @@ mix.webpackConfig( configureWebpack )
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/sass/app.scss', 'public/css')
+    .copy('resources/models', 'public/models');

@@ -28,7 +28,10 @@
         "webpack-cli": "^3.3.12"
     },
     "dependencies": {
+        "@tensorflow/tfjs-node": "^2.0.1",
         "animejs": "^3.2.0",
+        "canvas": "^2.6.1",
+        "face-api.js": "^0.22.2",
         "vuetify": "^2.3.6",
         "vuetify-loader": "1.5"
     }
