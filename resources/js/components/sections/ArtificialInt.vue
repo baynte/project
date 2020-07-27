@@ -32,13 +32,12 @@ export default {
 
         let video = document.getElementById("video");
         let canv = document.getElementById("canv");
-        let predictedAges = [];
 
-        navigator.getUserMedia(
-            { video: {} },
-            stream => (video.srcObject = stream),
-            err => console.error(err)
-        )
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video: true
+        })
+
+        document.querySelector('video').srcObject = stream
 
         video.addEventListener('play', () =>{
             const canvas = faceapi.createCanvasFromMedia(video)
