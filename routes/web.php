@@ -20,10 +20,10 @@ Route::get('/', function () {
 Auth::routes();
 
 //Socialite Google
-Route::get('login/{driver}', 'Auth\LoginController@redirectToProvider')
+Route::get('/login/{driver}', 'Auth\LoginController@redirectToProvider')
     ->name('login.provider')
     ->where('driver', implode('|', config('auth.socialite.drivers')));
-Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallback')
+Route::get('/login/{driver}/callback', 'Auth\LoginController@handleProviderCallback')
     ->name('login.callback')
     ->where('driver', implode('|', config('auth.socialite.drivers')));
 
