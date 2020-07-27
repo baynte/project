@@ -1,5 +1,5 @@
 <template>
-    <div id="videoContainer" class="d-flex justify-center" style="position: relative">
+    <div id="videoContainer" v-if="ok" class="d-flex justify-center" style="position: relative">
         <v-progress-circular
             indeterminate
             color="yellow"
@@ -17,7 +17,8 @@
 export default {
     data(){
         return{
-            loading: true
+            loading: true,
+            ok: true
         }
     },
     async created(){
@@ -65,6 +66,7 @@ export default {
                 })
         } else {
             alert('cannot get media devices')
+            this.ok = false
         }
     }
 }
