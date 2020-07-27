@@ -34,7 +34,7 @@ export default {
         let canv = document.getElementById("canv");
         let predictedAges = [];
 
-        navigator.getUserMedia(
+        navigator.mediaDevices.getUserMedia(
             { video: {} },
             stream => (video.srcObject = stream),
             err => console.error(err)
