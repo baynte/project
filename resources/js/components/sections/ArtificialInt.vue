@@ -34,13 +34,14 @@ export default {
         let canv = document.getElementById("canv");
         let predictedAges = [];
 
-        navigator.getUserMedia(
-            { video: {} },
-            stream => (video.srcObject = stream),
-            err => console.error(err)
-        )
+        if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: true
+            })
 
-        video.addEventListener('play', () =>{
+            video.srcObject = stream;
+
+            video.addEventListener('play', () =>{
             const canvas = faceapi.createCanvasFromMedia(video)
 
             document.getElementById("videoContainer").append(canvas)
@@ -49,19 +50,22 @@ export default {
 
             faceapi.matchDimensions(canvas, displaySize)
 
-            setInterval( async () => {
-                const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
-                .withFaceExpressions()
+                setInterval( async () => {
+                    const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+                    .withFaceExpressions()
 
-                const resizedDetections = faceapi.resizeResults(detections, displaySize)
-                
-                canvas.getContext('2d').clearRect( 0, 0, canvas.width, canvas.height)
+                    const resizedDetections = faceapi.resizeResults(detections, displaySize)
+                    
+                    canvas.getContext('2d').clearRect( 0, 0, canvas.width, canvas.height)
 
-                faceapi.draw.drawDetections(canvas, resizedDetections)
-                faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
-                
-            }, 100)
-        })
+                    faceapi.draw.drawDetections(canvas, resizedDetections)
+                    faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
+                    
+                    }, 100)
+                })
+        } else {
+            alert('cannot get media devices')
+        }
     }
 }
 </script>
