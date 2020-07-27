@@ -2,7 +2,7 @@
 <img src="https://vuejs.org/images/logo.png" width="150">
 </p>
 
-## About Laravel / Vue Wattpad
+## About Laravel / Vue
 
 A simple CRUD APIs with Face recognition using Laravel Framework as Backend with Vue as Frontend.
 
